@@ -51,6 +51,12 @@ import LocationRouter from "./routes/LocationRoutes.js";
 router.use("/location", LocationRouter);
 import ContactRouter from "./routes/ContactRoutes.js";
 router.use("/contact", ContactRouter);
+import AdminRouter from "./routes/AdminRoutes.js";
+router.use("/admin", AdminRouter);
+import PathRouter from "./routes/PathLogRoutes.js";
+router.use("/log", PathRouter);
+import FeedbackRouter from "./routes/FeedbackRoutes.js";
+router.use("/feedback", FeedbackRouter);
 
 app.get("/assets/*", (req, res) => {
   const s3BaseUrl =
