@@ -10,6 +10,8 @@ import {
 
 import User from "../models/UserModel.js";
 import { CustomRequest } from "../types/types.js";
+import PathLog from "../models/PathLogModel.js";
+import AdminLog from "../models/AdminLogModel.js";
 // const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const addUser = async (req: Request, res: Response): Promise<void> => {
@@ -41,6 +43,13 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
     });
 
     await user.save();
+
+    const log = new AdminLog({
+      userId: user._id,
+      description: `${firstName} ${lastName} Registered`,
+    });
+
+    await log.save();
 
     const accessToken = jwt.sign(
       { _id: user.id, userType: user.userType },
@@ -317,6 +326,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "7d" }
     );
 
+    const log = new AdminLog({
+      userId: user._id,
+      description: `${user.firstName} ${user.lastName} Logged In`,
+    });
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -548,6 +562,24 @@ export const getUsersBasedOnSearch = async (req: Request, res: Response) => {
     res.status(200).json({
       status: "success",
       users,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server Error!",
+    });
+  }
+};
+
+export const getOneUserById = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).select(
+      "email firstName lastName phoneNumber"
+    );
+    res.status(200).json({
+      status: "success",
+      user,
     });
   } catch (error) {
     console.error(error);
