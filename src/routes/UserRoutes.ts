@@ -4,6 +4,7 @@ const router = express.Router();
 import {
   addUser,
   changePassword,
+  getOneUserById,
   getProfile,
   getUsersBasedOnSearch,
   loginUser,
@@ -25,5 +26,7 @@ router.post("/update", isAuth, updateUser);
 router.get("/profile", isAuth, getProfile);
 
 router.post("/search", isAuth, getUsersBasedOnSearch);
+
+router.get("/get-one/:userId", isAuth, getOneUserById);
 
 export default router;
