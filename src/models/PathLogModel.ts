@@ -2,9 +2,12 @@ import mongoose, { Document, Schema } from "mongoose";
 // Define an interface that represents the PathLog document
 export interface IPathLog extends Document {
   _id: mongoose.Types.ObjectId;
+  type: "PathLog" | "AuthLog" | "AlertLog";
   miles: number;
   numberOfObsticles: number;
   numberOfSteps: number;
+  location: string;
+  description: string;
   userId: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -13,21 +16,25 @@ export interface IPathLog extends Document {
 // Define the PathLog schema
 const PathLogSchema: Schema<IPathLog> = new Schema(
   {
-    id: {
+    type: {
       type: String,
       required: true,
+      default: "PathLog",
     },
     numberOfObsticles: {
       type: Number,
-      required: true,
     },
     numberOfSteps: {
       type: Number,
-      required: true,
     },
     miles: {
       type: Number,
-      required: true,
+    },
+    location: {
+      type: String,
+    },
+    description: {
+      type: String,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
