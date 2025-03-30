@@ -131,4 +131,3 @@ Access the API documentation at `http://localhost:6001/api-docs`.
 - `npm run start` - Start the production server.
 - `npm run dev` - Start the development server with hot-reloading.
 - `npm run test` - Run tests using Jest.
-
