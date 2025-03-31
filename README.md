@@ -131,3 +131,13 @@ Access the API documentation at `http://localhost:6001/api-docs`.
 - `npm run start` - Start the production server.
 - `npm run dev` - Start the development server with hot-reloading.
 - `npm run test` - Run tests using Jest.
+
+## Database Design
+
+## Entity-Relationship Diagram
+
+![er_diagram](https://github.com/user-attachments/assets/7ad1cb6a-b545-4d60-927c-da5ce0374c08)
+
+## Enhanced Entity-Relationship Diagram
+
+![eerd_diagram](https://github.com/user-attachments/assets/96f6a27e-0136-4205-ab4d-444d2c7f33a7)
