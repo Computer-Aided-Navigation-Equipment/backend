@@ -51,7 +51,7 @@ const UserSchema: Schema<IUser> = new Schema(
 
     userType: {
       type: String,
-      enum: ["user", "admin", "superadmin"],
+      enum: ["user", "caregiver", "admin", "superadmin"],
       required: true,
       default: "user",
     },
