@@ -68,12 +68,11 @@ src/
    PORT=6001
    DBURI=<your-mongodb-uri>
    JWT_SECRET=<your-jwt-secret>
+   
    AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
    AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
    AWS_REGION=<your-aws-region>
    S3_BUCKET_NAME=<your-s3-bucket-name>
-   BREVO_API_KEY=<your-brevo-api-key>
-   FRONTEND_URL=<your-frontend-url>
    ```
 
 4. Build the project:
