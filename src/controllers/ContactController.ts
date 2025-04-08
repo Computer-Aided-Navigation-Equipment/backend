@@ -8,6 +8,8 @@ export const getUserContacts = async (req: CustomRequest, res: Response) => {
     const contacts = await Contact.find({ userId: user._id }).populate(
       "contactId"
     );
+    console.log("got request");
+    console.log(contacts);
     res.status(200).json({ contacts });
   } catch (error) {
     res.status(500).json({ message: error.message });

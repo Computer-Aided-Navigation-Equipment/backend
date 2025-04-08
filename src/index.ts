@@ -17,11 +17,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    //put multiple orgigins
-    origin: ["http://localhost:5173"],
+    origin: [
+      /http:\/\/localhost(:\d+)?$/, // Allows any port on localhost
+      "http://127.0.0.1", // IPv4 loopback
+      /^http:\/\/10\.\d+\.\d+\.\d+$/, // Matches all Android emulator IPs
+      "null", // For file:// origins in some environments
+    ],
     credentials: true,
   })
 );
+// app.use(cors({ origin: true, credentials: true }));
 
 app.use(dbConnectionMiddleware);
 
@@ -89,6 +94,8 @@ app.get("/*", function (req, res) {
     }
   );
 });
-const server = app.listen(process.env.PORT, () => {
-  console.log(`server startedd on port ${process.env.PORT}`);
+const port = process.env.PORT ? Number(process.env.PORT) : 6001;
+
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Server started on port ${port}`);
 });

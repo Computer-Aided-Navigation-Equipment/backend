@@ -2,18 +2,29 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import {
-  validateEmail,
-  validatePassword,
-  validateUsername,
-} from "../utils/validation.js";
+import { validateEmail, validatePassword } from "../utils/validation.js";
 
 import User from "../models/UserModel.js";
 import { CustomRequest } from "../types/types.js";
-import PathLog from "../models/PathLogModel.js";
 import AdminLog from "../models/AdminLogModel.js";
 // const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({}).select(
+      "email firstName lastName phoneNumber"
+    );
+    res.status(200).json({
+      status: "success",
+      users,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server Error!",
+    });
+  }
+};
 export const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, firstName, lastName, password } = req.body;
@@ -317,7 +328,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const accessToken = jwt.sign(
       { _id: user.id, userType: user.userType },
       process.env.JWT_SECRET!,
-      { expiresIn: "15m" }
+      { expiresIn: "7d" }
     );
 
     const refreshToken = jwt.sign(
