@@ -4,11 +4,8 @@ import { AttachmentSchema, IAttachment } from "./AttachementModel.js";
 // Define an interface that represents the Location document
 export interface ILocation extends Document {
   _id: mongoose.Types.ObjectId;
-<<<<<<< HEAD
   id: string;
   title: string;
-=======
->>>>>>> f4d506c (add initial backend structure with models, routes, and middleware for user and location management)
   location: string;
   userId: mongoose.Types.ObjectId;
   createdAt: Date;
