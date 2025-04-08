@@ -84,17 +84,9 @@ src/
 
 5. Start the server:
 
-   - For production:
-
-     ```bash
-     npm start
-     ```
-
-   - For development:
-
-     ```bash
-     npm run dev
-     ```
+   ```bash
+   npm run dev
+   ```
 
 ## API Endpoints
 
