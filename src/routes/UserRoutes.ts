@@ -4,12 +4,14 @@ const router = express.Router();
 import {
   addUser,
   changePassword,
+  forgetPassword,
   getAllUsers,
   getOneUserById,
   getProfile,
   getUsersBasedOnSearch,
   loginUser,
   refreshToken,
+  resetPassword,
   updateUser,
 } from "../controllers/UserController.js";
 import isAuth from "../middlewares/isAuth.js";
@@ -31,5 +33,9 @@ router.post("/search", isAuth, getUsersBasedOnSearch);
 router.get("/get-all", isAuth, getAllUsers);
 
 router.get("/get-one/:userId", isAuth, getOneUserById);
+
+router.post("/forgot-password", forgetPassword);
+
+router.post("/reset-password/:token", resetPassword);
 
 export default router;
