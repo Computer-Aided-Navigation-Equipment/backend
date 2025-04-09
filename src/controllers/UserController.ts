@@ -3,10 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { validateEmail, validatePassword } from "../utils/validation.js";
+import crypto from "crypto";
 
 import User from "../models/UserModel.js";
 import { CustomRequest } from "../types/types.js";
 import AdminLog from "../models/AdminLogModel.js";
+import { sendBasicEmail } from "../utils/email.js";
 // const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -597,5 +599,87 @@ export const getOneUserById = async (req: Request, res: Response) => {
     res.status(500).json({
       message: "Server Error!",
     });
+  }
+};
+
+export const forgetPassword = async (
+  req: CustomRequest,
+  res: Response
+): Promise<void> => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      res.status(404).json({ message: "Email doesn't exist" });
+      return;
+    }
+
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetExpire = Date.now() + 3600000;
+
+    user.emailVerificationCode = resetToken;
+    user.emailVerificationExpiry = new Date(resetExpire);
+    await user.save();
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+    const emailContent = `
+      <h2>Password Reset Request</h2>
+      <p>To reset your password, please click the link below:</p>
+      <a href="${resetLink}">${resetLink}</a>
+    `;
+
+    await sendBasicEmail(user.email, "Password Reset Request", emailContent);
+
+    res.status(200).json({ message: "Password reset link sent to your email" });
+    return;
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while processing your request" });
+    return;
+  }
+};
+
+export const resetPassword = async (
+  req: CustomRequest,
+  res: Response
+): Promise<void> => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Find the user with the reset token
+    const user = await User.findOne({ emailVerificationCode: token });
+
+    if (!user) {
+      res.status(400).json({ message: "Invalid or expired token" });
+      return;
+    }
+
+    // Check if the reset token has expired
+    if (Date.now() > user.emailVerificationExpiry.getTime()) {
+      res.status(400).json({ message: "Token has expired" });
+      return;
+    }
+
+    // Hash the new password and save it
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.emailVerificationCode = undefined; // Reset the token after successful password reset
+    user.emailVerificationExpiry = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password successfully reset" });
+    return;
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while resetting your password" });
+    return;
   }
 };

@@ -13,6 +13,8 @@ export interface IUser extends Document {
   userType: "user" | "caregiver" | "admin" | "superadmin";
   createdAt: Date;
   updatedAt: Date;
+  emailVerificationCode?: string;
+  emailVerificationExpiry?: Date;
 
   googleId?: string;
 }
@@ -55,6 +57,8 @@ const UserSchema: Schema<IUser> = new Schema(
       required: true,
       default: "user",
     },
+    emailVerificationCode: { type: String },
+    emailVerificationExpiry: { type: Date },
 
     // google
     googleId: { type: String },

@@ -30,6 +30,7 @@ app.use(
 
 app.use(dbConnectionMiddleware);
 
+console.log(process.env.BREVO_API_KEY);
 mongoose
   .connect(process.env.DBURI as string)
   .then(() => {
