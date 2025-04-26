@@ -64,15 +64,6 @@ router.use("/log", PathRouter);
 import FeedbackRouter from "./routes/FeedbackRoutes.js";
 router.use("/feedback", FeedbackRouter);
 
-app.get("/assets/*", (req, res) => {
-  const s3BaseUrl =
-    "https://aytji-build-files.s3.us-east-1.amazonaws.com/assets";
-  const assetPath = req.url.replace("/assets", ""); // Strip out the "/assets" prefix
-  const s3Url = `${s3BaseUrl}${assetPath}`;
-
-  console.log(`Redirecting to S3: ${s3Url}`);
-  res.redirect(s3Url);
-});
 app.use("/api", router);
 
 import { fileURLToPath } from "url";
