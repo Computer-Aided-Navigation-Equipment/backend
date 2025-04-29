@@ -1,7 +1,6 @@
 import { Response } from "express";
 import { CustomRequest } from "../types/types.js";
 import Counter from "../models/CounterModel.js";
-import { s3 } from "../config/multerConfiguration.js";
 import Location from "../models/LocationModel.js";
 
 export const createLocation = async (
