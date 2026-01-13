@@ -5,24 +5,30 @@ This repository contains the backend services for managing database operations a
 ## Features
 
 - **Authentication and Authorization**:
+
   - User login and registration.
   - Role-based access control (RBAC) for different user types.
   - JWT-based authentication.
 
 - **File Upload**:
+
   - Integration with AWS S3 for file storage using `multer` and `multer-s3`.
 
 - **Database Management**:
+
   - MongoDB models for users, locations, contacts, and path logs.
   - Middleware to ensure database connectivity.
 
 - **Email Notifications**:
+
   - Integration with Brevo (Sendinblue) for sending transactional emails.
 
 - **API Documentation**:
+
   - Swagger integration for API documentation.
 
 - **Utilities**:
+
   - Validation utilities for email, password, and username.
   - Helper functions for generating presigned URLs for S3.
 
